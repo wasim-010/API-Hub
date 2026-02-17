@@ -217,7 +217,10 @@ export default function App() {
                 {/* Env Credentials */}
                 <div className="grid md:grid-cols-2 gap-6 mb-10">
                    {/* Sandbox */}
-                   <div className={`p-5 rounded-xl border transition-colors ${env === 'sandbox' ? 'bg-surface border-yellow/40 ring-1 ring-yellow/20' : 'bg-bg border-border opacity-50'}`}>
+                   <div 
+                      onClick={() => setEnv('sandbox')}
+                      className={`p-5 rounded-xl border transition-colors cursor-pointer ${env === 'sandbox' ? 'bg-surface border-yellow/40 ring-1 ring-yellow/20' : 'bg-bg border-border opacity-50 hover:opacity-100 hover:border-yellow/30'}`}
+                   >
                       <div className="flex items-center gap-2 mb-4">
                          <div className="w-2 h-2 rounded-full bg-yellow"></div>
                          <h4 className="font-bold text-yellow text-sm tracking-wider">SANDBOX</h4>
@@ -234,7 +237,10 @@ export default function App() {
                    </div>
 
                    {/* Production */}
-                   <div className={`p-5 rounded-xl border transition-colors ${env === 'production' ? 'bg-surface border-green/40 ring-1 ring-green/20' : 'bg-bg border-border opacity-50'}`}>
+                   <div 
+                      onClick={() => setEnv('production')}
+                      className={`p-5 rounded-xl border transition-colors cursor-pointer ${env === 'production' ? 'bg-surface border-green/40 ring-1 ring-green/20' : 'bg-bg border-border opacity-50 hover:opacity-100 hover:border-green/30'}`}
+                   >
                       <div className="flex items-center gap-2 mb-4">
                          <div className="w-2 h-2 rounded-full bg-green"></div>
                          <h4 className="font-bold text-green text-sm tracking-wider">PRODUCTION</h4>
