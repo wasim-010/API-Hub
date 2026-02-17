@@ -133,7 +133,7 @@ fetch("${fullUrl}", requestOptions)
             )}
           </div>
 
-          <div className="flex border-b border-border bg-surface">
+          <div className="flex border-b border-border bg-surface overflow-x-auto whitespace-nowrap scrollbar-hide">
              {['curl', 'js', 'params', 'response'].map(tab => (
                (tab === 'params' && !endpoint.bodyParams) ? null :
                <button

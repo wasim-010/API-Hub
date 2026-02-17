@@ -4,11 +4,12 @@ import SearchModal from './components/SearchModal';
 import { PROVIDERS, CATEGORIES, COMPARISON_DATA } from './constants';
 import EndpointCard from './components/EndpointCard';
 import { Badge, Callout, CopyableText } from './components/UI';
-import { Globe, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Globe, CheckCircle2, ArrowRight, Menu } from 'lucide-react';
 import CodeBlock from './components/CodeBlock';
 
 export default function App() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [env, setEnv] = useState<'sandbox' | 'production'>('sandbox');
@@ -30,6 +31,7 @@ export default function App() {
     if (!selectedCategory) return;
     const handleScroll = () => {
       const providers = PROVIDERS.filter(p => p.category === selectedCategory);
+      // ... (rest of scroll logic)
       const sections = providers.map(p => p.id).concat(['hero', 'comparison']);
       const scrollPosition = window.scrollY + 100;
 
@@ -56,24 +58,34 @@ export default function App() {
         activeSection={activeSection}
         selectedCategory={selectedCategory}
         onSelectCategory={setSelectedCategory}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
       
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       {/* Top Bar */}
-      <header className="fixed top-0 left-[280px] right-0 h-[56px] bg-bg/80 backdrop-blur border-b border-border z-30 flex items-center justify-between px-8">
+      <header className="fixed top-0 left-0 md:left-[280px] right-0 h-[56px] bg-bg/80 backdrop-blur border-b border-border z-30 flex items-center justify-between px-4 md:px-8 transition-all duration-300">
         <div className="flex items-center gap-4">
+           {/* Mobile Menu Button */}
+           <button 
+             onClick={() => setIsSidebarOpen(true)}
+             className="md:hidden text-text-dim hover:text-text p-1"
+           >
+             <Menu size={20} />
+           </button>
+
            {selectedCategory && (
              <div className="flex bg-surface2 rounded-full p-1 border border-border2">
                 <button 
                    onClick={() => setEnv('sandbox')}
-                   className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${env === 'sandbox' ? 'bg-yellow text-bg shadow-sm' : 'text-text-dim hover:text-text'}`}
+                   className={`px-3 md:px-4 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider transition-all ${env === 'sandbox' ? 'bg-yellow text-bg shadow-sm' : 'text-text-dim hover:text-text'}`}
                 >
                   Sandbox
                 </button>
                 <button 
                    onClick={() => setEnv('production')}
-                   className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${env === 'production' ? 'bg-green text-bg shadow-sm' : 'text-text-dim hover:text-text'}`}
+                   className={`px-3 md:px-4 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider transition-all ${env === 'production' ? 'bg-green text-bg shadow-sm' : 'text-text-dim hover:text-text'}`}
                 >
                   Production
                 </button>
@@ -81,21 +93,27 @@ export default function App() {
            )}
         </div>
         <div className="flex items-center gap-3">
-           <Badge color="#4dabf7">Hub v1.0</Badge>
-           <Badge color="#39c5cf">API Reference</Badge>
+           <div className="hidden md:flex gap-3">
+              <Badge color="#4dabf7">Hub v1.0</Badge>
+              <Badge color="#39c5cf">API Reference</Badge>
+           </div>
+           {/* Mobile simplified badge */}
+           <div className="md:hidden">
+              <Badge color="#4dabf7">v1.0</Badge>
+           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="ml-[280px] pt-[80px] px-8 pb-32 max-w-5xl">
+      <main className="ml-0 md:ml-[280px] pt-[80px] px-4 md:px-8 pb-32 max-w-5xl transition-all duration-300">
         
         {/* Hero */}
         <section id="hero" className="mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
            <h4 className="text-accent font-mono text-sm mb-2">Developer Reference</h4>
-           <h1 className="text-5xl md:text-6xl font-display font-bold text-text mb-6">
+           <h1 className="text-4xl md:text-6xl font-display font-bold text-text mb-6">
              API <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple">Hub</span>
            </h1>
-           <p className="text-xl text-text-dim max-w-2xl leading-relaxed mb-10">
+           <p className="text-lg md:text-xl text-text-dim max-w-2xl leading-relaxed mb-10">
              Centralized API documentation for logistics, payments, and services. 
              Select a category to explore endpoints, test integration, and ship faster.
            </p>
@@ -109,7 +127,7 @@ export default function App() {
                    onClick={() => setSelectedCategory(cat.id)}
                    className="flex items-start gap-5 p-6 bg-surface border border-border rounded-xl hover:border-accent/50 hover:bg-surface2 transition-all group text-left"
                  >
-                   <div className="w-14 h-14 rounded-lg flex items-center justify-center bg-bg border border-border group-hover:border-accent/30 group-hover:text-accent transition-colors">
+                   <div className="w-14 h-14 rounded-lg flex items-center justify-center bg-bg border border-border group-hover:border-accent/30 group-hover:text-accent transition-colors shrink-0">
                       <cat.icon size={28} className="text-text-dim group-hover:text-accent transition-colors" />
                    </div>
                    <div>
@@ -138,7 +156,7 @@ export default function App() {
                  <a 
                    key={p.id} 
                    href={`#${p.id}`}
-                   className="flex flex-col items-center justify-center p-6 bg-surface border border-border rounded-xl hover:border-accent/50 hover:bg-surface2 transition-all group"
+                   className="flex flex-col items-center justify-center p-6 bg-surface border border-border rounded-xl hover:border-accent/50 hover:bg-surface2 transition-all group text-center"
                  >
                    <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-white p-2 mb-3 shadow-lg group-hover:scale-110 transition-transform">
                      <img src={p.logoUrl} alt={p.name} className="w-full h-full object-contain" />
@@ -157,8 +175,8 @@ export default function App() {
             {/* Comparison Table */}
             <section id="comparison" className="mb-24 scroll-mt-24">
                <h2 className="text-2xl font-display font-bold mb-6">Feature Comparison</h2>
-               <div className="overflow-hidden border border-border rounded-xl bg-surface">
-                 <table className="w-full text-left text-sm">
+               <div className="overflow-x-auto border border-border rounded-xl bg-surface">
+                 <table className="w-full text-left text-sm min-w-[600px]">
                    <thead className="bg-surface2 text-text-dim uppercase font-bold text-xs">
                      <tr>
                        <th className="p-4">Feature</th>
@@ -188,12 +206,12 @@ export default function App() {
               <section key={provider.id} id={provider.id} className="mb-32 scroll-mt-24">
                 
                 {/* Provider Header */}
-                <div className="flex items-start gap-6 mb-10 pb-10 border-b border-border">
+                <div className="flex flex-col md:flex-row items-start gap-6 mb-10 pb-10 border-b border-border">
                   <div className="w-20 h-20 rounded-2xl flex items-center justify-center bg-white p-3 shadow-2xl shrink-0">
                     <img src={provider.logoUrl} alt={provider.name} className="w-full h-full object-contain" />
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
+                  <div className="flex-1 w-full">
+                    <div className="flex flex-wrap items-center gap-3 mb-2">
                       <h2 className="text-3xl font-display font-bold text-text">{provider.name}</h2>
                       <Badge>{provider.version}</Badge>
                     </div>
@@ -202,7 +220,7 @@ export default function App() {
                     <div className="flex flex-wrap gap-4">
                       <div className="flex items-center gap-2 text-sm text-text-muted bg-surface px-3 py-1.5 rounded border border-border">
                         <Globe size={16} />
-                        <span className="font-mono text-accent">
+                        <span className="font-mono text-accent break-all">
                           {env === 'sandbox' && provider.sandbox ? provider.sandbox.baseUrl : provider.production.baseUrl}
                         </span>
                       </div>
@@ -215,7 +233,7 @@ export default function App() {
                 </div>
 
                 {/* Env Credentials */}
-                <div className="grid md:grid-cols-2 gap-6 mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                    {/* Sandbox */}
                    <div 
                       onClick={() => setEnv('sandbox')}
@@ -290,7 +308,7 @@ export default function App() {
                       }
                     </p>
                     
-                    <div className="grid md:grid-cols-2 gap-4 mb-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                       {provider.webhooks.events.map((evt, i) => (
                         <div key={i} className="bg-surface border border-border p-4 rounded-lg flex flex-col">
                            <code className="text-accent font-mono text-sm mb-1">{evt.name}</code>
@@ -326,8 +344,8 @@ export default function App() {
                 {provider.statuses && (
                   <div className="mt-16 pt-10 border-t border-border">
                      <h3 className="text-xl font-bold text-text mb-6">Order Statuses</h3>
-                     <div className="bg-surface border border-border rounded-lg overflow-hidden">
-                        <table className="w-full text-sm text-left">
+                     <div className="bg-surface border border-border rounded-lg overflow-x-auto">
+                        <table className="w-full text-sm text-left min-w-[300px]">
                            <thead className="bg-surface2 text-text-dim uppercase font-bold text-xs">
                              <tr>
                                <th className="px-4 py-3">Slug</th>
