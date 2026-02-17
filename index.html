@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CourierAPI Hub</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['DM Sans', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+              display: ['Syne', 'sans-serif'],
+            },
+            colors: {
+              bg: '#080c10',
+              surface: '#0e1318',
+              surface2: '#141a22',
+              surface3: '#1c2530',
+              border: '#1e2d3d',
+              border2: '#243447',
+              text: '#cdd9e5',
+              'text-dim': '#768390',
+              'text-muted': '#4a5568',
+              accent: '#4dabf7',
+              green: '#3fb950',
+              yellow: '#d29922',
+              red: '#f85149',
+              orange: '#fca130',
+              teal: '#39c5cf',
+              purple: '#b083f0',
+              // Provider colors
+              pathao: '#e8394d',
+              redx: '#e83232',
+              steadfast: '#1a73e8',
+              carrybee: '#f59e0b',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Custom scrollbar for dark theme */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #080c10; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e2d3d; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #243447; 
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background-color: #080c10;
+        color: #cdd9e5;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.564.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
